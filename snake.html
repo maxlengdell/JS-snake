@@ -63,16 +63,47 @@
                 foodGenerator();
 
                 
-                if(checkWall()){
+                if(checkWall() || checkCollision()){
                     //Show user that game was lost
-                    
+                    console.log("Game over");
+                    reset();
                 }
                 moveSnake();
                 drawSnake();
                 main();
             }, 100)
         }
-
+        function reset() {
+            snake = [{
+                x: 250,
+                y: 150
+            },
+            {
+                x: 240,
+                y: 150
+            },
+            {
+                x: 230,
+                y: 150
+            },
+            {
+                x: 220,
+                y: 150
+            },
+            {
+                x: 210,
+                y: 150
+            }];
+            food = [
+            {
+            x: 200,
+            y:200
+            },{
+                x:300,
+                y:300
+            }
+            ];
+        }
         function foodGenerator() {
 
             snake.forEach( function didEatFood(bite) {
@@ -106,17 +137,23 @@
             return Math.round((Math.random()*(max-min) + min)/10)*10;
         }
 
-
+        function checkCollision(){
+            for(i = 1; i < snake.length -1; i += 1){
+                if((snake[i].x == snake[0].x) && (snake[i].y == snake[0].y)){
+                    return 1
+                }
+            }
+        }
         function checkWall() {
             if((snake[0].x > gameCanvas.width) || (snake[0].x < 0) 
             || (snake[0].y < 0) || (snake[0].y > gameCanvas.height)){
                 //Game over
-                console.log("Game over");
                 return 1
             }
             else{
                 return 0
             }
+            
             //console.log("snake [0] coordinate = " + snake[0].x)
         }
         function isSnakeOnFood() {
