@@ -34,6 +34,15 @@
                 y: 150
             }
         ]
+        let food = [
+            {
+            x: 200,
+            y:200
+            },{
+                x:300,
+                y:300
+            }
+            ];
 
         let dx = 10;
         let dy = 0;
@@ -51,13 +60,76 @@
             setTimeout(function onTick() {
                 clearCanvas();
                 drawSnake();
+                foodGenerator();
+
+                
+                if(checkWall()){
+                    //Show user that game was lost
+                    
+                }
                 moveSnake();
                 drawSnake();
                 main();
             }, 100)
         }
 
+        function foodGenerator() {
 
+            snake.forEach( function didEatFood(bite) {
+                if(food.length == snake.length){
+                }
+                else{
+                    X = randomGen(0, gameCanvas.width-dx);
+                    Y = randomGen(0, gameCanvas.height-dy);
+                    const head = {
+                        x: X,
+                        y: Y
+                    };
+                    food.push(head);
+                    
+                }  
+       
+            });
+            food.forEach(function drawAllFood(bite) {
+                drawFood(bite.x,bite.y);
+                    
+            });
+            console
+        }
+        function drawFood(X,Y) {
+            ctx.fillStyle = 'red';
+            ctx.strokestyle = 'darkred';
+            ctx.fillRect(X,Y,10,10);
+            ctx.strokeRect(X,Y,10,10);
+        }
+        function randomGen(min, max) {
+            return Math.round((Math.random()*(max-min) + min)/10)*10;
+        }
+
+
+        function checkWall() {
+            if((snake[0].x > gameCanvas.width) || (snake[0].x < 0) 
+            || (snake[0].y < 0) || (snake[0].y > gameCanvas.height)){
+                //Game over
+                console.log("Game over");
+                return 1
+            }
+            else{
+                return 0
+            }
+            //console.log("snake [0] coordinate = " + snake[0].x)
+        }
+        function isSnakeOnFood() {
+            var ret = false;
+            food.forEach(function snakeOnFood(bite){
+                if (bite.x == snake[0].x && bite.y == snake[0].y) {
+                    console.log("snake is on food");
+                    ret = true;
+                    food.splice(food.indexOf(bite),1);
+                }
+            })
+            return ret
+        }
 
         function moveSnake() {
             const head = {
@@ -65,7 +137,13 @@
                 y: snake[0].y + dy
             };
             snake.unshift(head); //Add to beginning of array
-            snake.pop(); //Removes last element, making it move
+            if(isSnakeOnFood())
+            {
+                //Spawn new food
+            }
+            else {
+                snake.pop(); //Removes last element, making it move
+            }
         }
 
         function drawSnake() {
@@ -92,22 +170,18 @@
             const goingRight = dx === 10;
             const goingLeft = dx === -10;
             if(event.keyCode == LEFT_KEY && dx != 10) {
-                console.log("left")
                 dx = -10;
                 dy = 0;
             }
             if(event.keyCode == RIGHT_KEY && dx != -10) {
-                console.log("right");
                 dx = 10;
                 dy = 0;
             }
             if(event.keyCode == UP_KEY && dy != 10) {
-                console.log("up");
                 dy = -10;
                 dx = 0;
             }
             if(event.keyCode == DOWN_KEY && dy != -10) {
-                console.log("down");
                 dy = 10;
                 dx = 0;
             }
