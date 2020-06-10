@@ -73,36 +73,14 @@
                 main();
             }, 100)
         }
-        function reset() {
-            snake = [{
-                x: 250,
-                y: 150
-            },
-            {
-                x: 240,
-                y: 150
-            },
-            {
-                x: 230,
-                y: 150
-            },
-            {
-                x: 220,
-                y: 150
-            },
-            {
-                x: 210,
-                y: 150
-            }];
-            food = [
-            {
-            x: 200,
-            y:200
-            },{
-                x:300,
-                y:300
-            }
-            ];
+        function createTunnel() {
+            
+        }
+        function drawTunnel() {
+            ctx.fillStyle = 'green';
+            ctx.strokestyle = 'darkgreen';
+            ctx.fillRect(X,Y,10,10);
+            ctx.strokeRect(X,Y,10,10);
         }
         function foodGenerator() {
 
@@ -222,6 +200,37 @@
                 dy = 10;
                 dx = 0;
             }
+        }
+        function reset() {
+            snake = [{
+                x: 250,
+                y: 150
+            },
+            {
+                x: 240,
+                y: 150
+            },
+            {
+                x: 230,
+                y: 150
+            },
+            {
+                x: 220,
+                y: 150
+            },
+            {
+                x: 210,
+                y: 150
+            }];
+            food = [
+            {
+            x: 200,
+            y:200
+            },{
+                x:300,
+                y:300
+            }
+            ];
         }
         function clearCanvas() {
             const context = gameCanvas.getContext('2d');
